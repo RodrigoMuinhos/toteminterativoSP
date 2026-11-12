@@ -291,7 +291,8 @@ function startSquad(){
     '<div class="badge-board" aria-label="Encaixes do símbolo Autobot">'+
     badgeSections.slice(0,-1).map((_,i)=>'<button class="badge-slot" data-slot="'+i+'" aria-label="Encaixe '+(i+1)+'">'+badgeIcon(i,true)+'</button>').join('')+'</div>'+
     '<div class="badge-tray" aria-label="Peças do símbolo">'+order.map(i=>
-      '<button class="badge-piece" data-piece="'+i+'" aria-label="Peça '+(i+1)+'" aria-pressed="false">'+badgeIcon(i)+'</button>').join('')+'</div>'
+      '<button class="badge-piece" data-piece="'+i+'" aria-label="Peça '+(i+1)+'" aria-pressed="false">'+badgeIcon(i)+'</button>').join('')+'</div>'+
+    '<div class="badge-indicators" aria-hidden="true"><i></i><i></i><i></i></div>'
 }
 function pickPiece(index){
   picked=index
@@ -299,11 +300,7 @@ function pickPiece(index){
 }
 function fitPiece(index){
   if(state!=='squad'||picked===null||fitted.has(index))return
-  if(index!==picked){
-    const slot=autobots.querySelector('[data-slot="'+index+'"]')
-    if(!reduced.matches)slot.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'none'}],{duration:190})
-    return
-  }
+  if(index!==picked)return
   fitted.add(index)
   pickPiece(null)
   const piece=autobots.querySelector('[data-piece="'+index+'"]')
@@ -313,6 +310,7 @@ function fitPiece(index){
   slot.disabled=true
   slot.classList.add('fitted')
   slot.innerHTML=badgeIcon(index)
+  autobots.querySelectorAll('.badge-indicators i')[fitted.size-1].classList.add('lit')
   status.textContent=fitted.size+' de 3 peças encaixadas.'
   scanAudio()
   if(audio?.state==='running')tone(audio.currentTime,340+fitted.size*120,680+fitted.size*140,.22,.065,'triangle')

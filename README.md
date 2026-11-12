@@ -96,4 +96,6 @@ My Little Pony, Transformers e seus personagens pertencem aos respectivos titula
 
 ## Origem dos temas
 
-O Pony foi preservado a partir do projeto deste repositório. O Transformers foi importado do Site `https://transformers-scan-totem.rodrigomuinhostattoo.chatgpt.site/`, commit de origem `596b36c78582fbad83e7f25623e1d1e9f7d709a6`. Os Sites originais não são necessários para executar os totens nem foram alterados nesta importação.
+O Pony foi preservado a partir do projeto deste repositório. O Transformers foi importado do Site `https://transformers-scan-totem.rodrigomuinhostattoo.chatgpt.site/`, commit de origem `5a9666d4ed952a08c44754fa053d1115ea3b7c7d`. Os Sites originais não são necessários para executar os totens nem foram alterados nesta importação.
+
+Atualização importada do Transformers: versão 16 do Site, com pôster vertical animado e novo visual/indicadores da montagem do símbolo. Foram mantidos os ajustes locais de Home, inatividade de 15 segundos e sequência final do Optimus.

@@ -8,10 +8,20 @@ function app() {
   let now = 0, sequence = 0;
   const timers = new Map(), listeners = [], nodes = new Map(), decodes = [];
   function node() {
-    return { innerHTML: '', hidden: false, isConnected: true,
-      style: { setProperty() {} }, classList: { add() {}, remove() {} },
+    const classes = new Set();
+    return { innerHTML: '', hidden: false, isConnected: true, dataset: {},
+      style: { setProperty() {} }, classList: { add(value) { classes.add(value); }, remove(value) { classes.delete(value); }, contains(value) { return classes.has(value); } },
+      setAttribute() {},
       addEventListener() {},
       querySelector: selector => nodes.get(selector) || (nodes.set(selector, node()), nodes.get(selector)),
+      querySelectorAll(selector) {
+        return Array.from({ length: 3 }, (_, index) => {
+          const key = `${selector}:${index}`;
+          if (!nodes.has(key)) nodes.set(key, node());
+          if (selector === '[data-piece]') nodes.get(key).dataset.piece = String(index);
+          return nodes.get(key);
+        });
+      },
       replaceChildren() { this.innerHTML = ''; for (const value of nodes.values()) value.isConnected = false; }
     };
   }
@@ -138,6 +148,20 @@ test('Home durante o trio cancela a montagem automática do Optimus', () => {
   game.run('reset()');
   game.advance(20000);
   assert.equal(game.run('state'), 'poster');
+});
+
+test('montagem do símbolo atualiza os três indicadores antes de mostrar o trio', () => {
+  const game = app();
+  game.run('startSquad(); pickPiece(1); fitPiece(0)');
+  assert.equal(game.run('fitted.size'), 0);
+  for (let index = 0; index < 3; index++) {
+    game.run(`pickPiece(${index}); fitPiece(${index})`);
+    assert.equal(game.run('fitted.size'), index + 1);
+    assert.equal(game.nodes.get(`.badge-indicators i:${index}`).classList.contains('lit'), true);
+  }
+  game.advance(850);
+  assert.equal(game.run('state'), 'squad-win');
+  assert.doesNotMatch(game.nodes.get('.autobots').innerHTML, /squad-eyes/);
 });
 
 test('seletor navega em páginas separadas e não executa os dois totens', () => {
