@@ -5,9 +5,10 @@
   "type": "module",
   "engines": { "node": ">=22" },
   "scripts": {
+    "test": "node --test scripts/inactivity.test.mjs",
     "dev": "node scripts/serve.mjs --source",
     "check": "node scripts/check.mjs",
-    "build": "npm run check && node scripts/build.mjs",
+    "build": "npm run check && npm test && node scripts/build.mjs",
     "preview": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs"
   }

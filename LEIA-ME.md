@@ -6,7 +6,7 @@ O código e as imagens ficam em `frontend`. O inicializador gera `frontend/dist`
 
 Configure a tela do Windows em orientação Retrato (9:16, idealmente 1080 × 1920), calibre o toque e desative suspensão e desligamento da tela durante o evento. Ajuste o volume antes de abrir. O áudio é liberado pelo primeiro toque.
 
-Teste no equipamento: toque para começar, arraste no labirinto, aguarde o retorno automático ao início, sorteie uma pose e conclua as cinco etapas de criação. As brincadeiras retornam ao pôster após inatividade (45 segundos; criação tem limite de 60 segundos). A comemoração volta após 7 segundos.
+Teste no equipamento: toque para começar, arraste no labirinto, aguarde o retorno automático ao início, sorteie uma pose e conclua as cinco etapas de criação. Todas as brincadeiras retornam ao pôster após 15 segundos sem interação, inclusive a criação de pônei. O botão Home no topo permite voltar imediatamente. A criação também tem limite total de 60 segundos. A comemoração volta após 7 segundos.
 
 O modo quiosque ocupa a tela; não bloqueia atalhos do Windows. Para uma instalação pública com bloqueio do sistema, configure Acesso Atribuído no Windows com o responsável pelo equipamento.
 
