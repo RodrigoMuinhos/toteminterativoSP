@@ -53,6 +53,8 @@ Ao importar este repositório em uma hospedagem estática, configure:
 
 Se a hospedagem executar os comandos a partir da raiz do repositório, use `npm --prefix frontend ci`, `npm --prefix frontend run build` e saída `frontend/dist`.
 
+Na Vercel, selecione `frontend` em **Root Directory**. O arquivo `frontend/vercel.json` define instalação, build e saída `dist` automaticamente. A pasta `public` contém apenas imagens e não deve ser usada como saída do deploy.
+
 Não são necessários redirects de SPA ou um processo Node em produção. O servidor em `scripts/serve.mjs` é destinado ao uso local. O workflow do GitHub valida o build e disponibiliza o artefato `frontend-dist`; ele não publica o site automaticamente.
 
 ## Equipamento físico

@@ -1,0 +1,5 @@
+.sites-checkout
+*.tar.gz
+.git
+frontend/dist
+frontend/node_modules
