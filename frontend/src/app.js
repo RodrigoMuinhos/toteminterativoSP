@@ -318,7 +318,6 @@ panel.addEventListener('click',e=>{
     else document.exitFullscreen?.().catch(()=>{})
     return
   }
-  if(action==='start'){startRandomGame();return}
   if(action==='home'){wait();return}
   if(screen==='dress'&&button.hasAttribute('data-avatar-option'))chooseAvatarOption(button)
   if(action==='avatar-back'&&avatarStep>0){avatarStep--;renderAvatarStep()}
