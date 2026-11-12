@@ -134,13 +134,13 @@ returnGlow.addEventListener('animationend',()=>returnGlow.classList.remove('lit'
 
 function finish(){
   display('complete','Optimus Prime ativado.')
+  returnToPoster(1800)
   if(audio?.state==='running'){
     const now=audio.currentTime
     for(const [index,note] of [261.63,392,523.25,659.25].entries()){
       tone(now+index*.12,note,note,.38,.075)
     }
   }
-  returnToPoster(12000)
 }
 
 function suspense(){

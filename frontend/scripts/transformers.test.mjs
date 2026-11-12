@@ -21,7 +21,9 @@ function app() {
     document: { querySelector: () => panel },
     window: { addEventListener() {} },
     matchMedia: () => ({ matches: true }),
-    cancelAnimationFrame() {},
+    performance: { now: () => now },
+    requestAnimationFrame(fn) { const id = ++sequence; timers.set(id, { fn: () => fn(now), at: now + 16 }); return id; },
+    cancelAnimationFrame(id) { timers.delete(id); },
     Image: class { decode() { return new Promise(resolve => decodes.push(resolve)); } },
     setTimeout(fn, delay) { const id = ++sequence; timers.set(id, { fn, at: now + delay }); return id; },
     clearTimeout(id) { timers.delete(id); }
@@ -78,6 +80,33 @@ test('Transformers: carregar imagens após sair não reabre o jogo encerrado', a
   game.resolveFrames();
   await pending;
   game.advance(30000);
+  assert.equal(game.run('state'), 'poster');
+});
+
+test('scan completo revela Optimus e volta ao pôster sem aguardar inatividade', () => {
+  const game = app();
+  game.run("display('idle', ''); startHold(1)");
+  game.advance(7800);
+  assert.equal(game.run('state'), 'complete');
+  // Further touches must not postpone the automatic end of the animation.
+  game.interact();
+  game.advance(2300);
+  assert.equal(game.run('state'), 'poster');
+  assert.equal(game.run('charge'), 0);
+  assert.equal(game.nodes.get('.poster-entry').disabled, false);
+  game.advance(20000);
+  assert.equal(game.run('state'), 'poster');
+});
+
+test('scan interrompido volta após 15 segundos sem interação', () => {
+  const game = app();
+  game.run("display('idle', ''); startHold(1)");
+  game.advance(1500);
+  game.run('endHold(1)');
+  game.interact();
+  game.advance(14999);
+  assert.equal(game.run('state'), 'scanning');
+  game.advance(1);
   assert.equal(game.run('state'), 'poster');
 });
 

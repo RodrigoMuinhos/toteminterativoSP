@@ -24,7 +24,7 @@ main{position:relative;width:min(100vw,56.25vh);width:min(100vw,56.25dvh);aspect
 .light .flash{animation:light-burst .65s ease-out both}
 .complete .flash{animation:flash .42s ease-out both}
 @keyframes light-burst{from{opacity:0}40%,to{opacity:1}}
-.complete .reveal{animation:hero 11s ease-out both;transform-origin:54% 46%}
+.complete .reveal{animation:hero 1.8s ease-out both;transform-origin:54% 46%}
 @keyframes flash{from{opacity:1}to{opacity:0}}
 @keyframes hero{from{transform:scale(1)}to{transform:scale(1.025)}}
 .scan-pad{position:absolute;left:50%;bottom:5%;transform:translateX(-50%);display:grid;justify-items:center;gap:1.1cqw;width:26cqw;min-height:25cqw;padding:2.7cqw 1cqw 2cqw;border:1px solid #76f9ffb0;border-radius:4cqw;background:#062244ee;color:#d7fbff;box-shadow:inset 0 0 5cqw #16bfe93c,0 0 4cqw #00d9ff45;cursor:pointer;touch-action:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
