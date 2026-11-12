@@ -1,18 +1,33 @@
-# Totem Interativo SP · My Little Pony
+# Totem Interativo SP · My Little Pony e Transformers
 
-Painel vertical com labirinto, sorteio de poses e criação de pônei. Frontend estático, sem backend, banco de dados ou dependências de execução externas.
+Dois totens verticais independentes, precedidos por uma tela de escolha de tema. Frontend estático, sem backend, banco de dados ou dependências externas de execução.
+
+- **My Little Pony:** labirinto, sorteio de poses e criação de pônei.
+- **Transformers:** scan do Optimus Prime, transformação de cinco personagens e montagem do símbolo Autobot.
+
+A escolha usa navegação normal na mesma aba. Nenhum iframe, script compartilhado entre os jogos ou execução simultânea dos dois temas. Cada tema tem suas próprias imagens, estilos, lógica e estado. O Home e a inatividade retornam ao pôster do tema atual, sem trocar de universo.
 
 ## Estrutura
 
 ```text
 frontend/
-  index.html          Tela inicial
-  src/app.js          Brincadeiras e interações
-  src/styles.css      Estilos e animações
-  public/             Imagens locais
-  scripts/            Servidor local, verificação e build
-  dist/               Gerado pelo build; não versionado
-Iniciar-Totem.ps1      Inicializador do equipamento Windows
+  index.html                    Escolha do tema
+  src/styles.css                Estilos exclusivos da escolha
+  public/previews/              Imagens dos cartões de escolha
+  themes/
+    my-little-pony/              Projeto Pony preservado
+      index.html
+      src/app.js
+      src/styles.css
+      public/
+    transformers/               Projeto Transformers independente
+      index.html
+      src/app.js
+      src/styles.css
+      public/                   Inclui 45 frames de transformação
+  scripts/                      Build, servidor e testes
+  dist/                         Saída gerada, não versionada
+Iniciar-Totem.ps1                Inicializador Windows com escolha de tema
 ```
 
 ## Desenvolvimento
@@ -25,7 +40,7 @@ npm ci
 npm run dev
 ```
 
-Abra `http://127.0.0.1:4173`. Atualize a página após editar arquivos. Os assets são locais; a execução não exige internet ou login no ChatGPT.
+Abra `http://127.0.0.1:4173/`. Depois de editar os arquivos, reinicie `npm run dev` para gerar a nova versão. Os assets são locais; a execução não exige internet ou login no ChatGPT.
 
 ## Build e prévia
 
@@ -35,7 +50,17 @@ npm run build
 npm run preview
 ```
 
-O build verifica a sintaxe JavaScript e os assets referenciados pelo HTML/CSS, depois gera `frontend/dist`. Publique o conteúdo completo dessa pasta. Use um servidor HTTP; não abra o HTML por `file://`.
+O build verifica a sintaxe JavaScript, os assets dos dois temas, os 45 frames do Transformers e os testes de retorno automático, depois gera `frontend/dist`. A saída antiga é limpa para evitar arquivos de um tema na raiz do seletor. Publique o conteúdo completo dessa pasta. Use um servidor HTTP; não abra o HTML por `file://`.
+
+## Endereços separados
+
+| Caminho | Experiência |
+| --- | --- |
+| `/` | Escolha do tema |
+| `/my-little-pony/` | Apenas o totem My Little Pony |
+| `/transformers/` | Apenas o totem Transformers |
+
+Os endereços diretos permitem configurar um equipamento para um único tema. Para escolher outro, reabra `/` ou volte pelo navegador. Os jogos não oferecem navegação cruzada entre temas.
 
 ## Deploy do frontend
 
@@ -63,8 +88,12 @@ Consulte [LEIA-ME.md](LEIA-ME.md). O inicializador do Windows prepara o build e 
 
 ## Verificação
 
-`npm run check` verifica código e referências a assets. O build também roda essa verificação. Valide manualmente o arraste no labirinto, o retorno automático ao início, as poses, as cinco etapas do avatar, o áudio após o primeiro toque e o retorno por inatividade.
+`npm run check` verifica código e referências a assets. `npm test` verifica inatividade, isolamento e cancelamento de carregamentos após sair. O build executa ambos. Valide manualmente o arraste no labirinto, o retorno automático ao início, as poses, as cinco etapas do avatar, o áudio após o primeiro toque e o retorno por inatividade.
 
 ## Conteúdo visual
 
-My Little Pony e seus personagens pertencem aos respectivos titulares. Este repositório não concede licença sobre marcas ou imagens de terceiros.
+My Little Pony, Transformers e seus personagens pertencem aos respectivos titulares. Este repositório não concede licença sobre marcas ou imagens de terceiros.
+
+## Origem dos temas
+
+O Pony foi preservado a partir do projeto deste repositório. O Transformers foi importado do Site `https://transformers-scan-totem.rodrigomuinhostattoo.chatgpt.site/`, commit de origem `596b36c78582fbad83e7f25623e1d1e9f7d709a6`. Os Sites originais não são necessários para executar os totens nem foram alterados nesta importação.

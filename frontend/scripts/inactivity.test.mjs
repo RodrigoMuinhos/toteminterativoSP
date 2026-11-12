@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../themes/my-little-pony/src/app.js', import.meta.url), 'utf8');
 function app() {
   let now = 0, sequence = 0;
   const timers = new Map();
