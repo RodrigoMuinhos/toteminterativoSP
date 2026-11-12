@@ -1,0 +1,14 @@
+{
+  "name": "totem-interativo-sp-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/serve.mjs --source",
+    "check": "node scripts/check.mjs",
+    "build": "npm run check && node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs"
+  }
+}

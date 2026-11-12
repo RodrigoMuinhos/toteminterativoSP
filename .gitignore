@@ -1,0 +1,12 @@
+.sites-checkout/
+*.tar.gz
+node_modules/
+frontend/dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.log
+.vercel/
+.netlify/
