@@ -160,4 +160,3 @@ img{user-select:none;-webkit-user-drag:none}.hero{position:absolute;left:13%;top
 
 html,body{overscroll-behavior:none}main{user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .trail .mazeHome{z-index:6}
-.fullscreenControl{position:absolute;right:3%;top:2%;z-index:8;width:10cqw;height:10cqw;border-radius:50%;background:#fffdf3dd;font-size:6cqw}

@@ -313,11 +313,6 @@ panel.addEventListener('click',e=>{
   if(!button)return
   unlockAudio()
   const {action}=button.dataset
-  if(action==='fullscreen'){
-    if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{button.setAttribute('aria-label','Use F11 para tela cheia')})
-    else document.exitFullscreen?.().catch(()=>{})
-    return
-  }
   if(action==='home'){wait();return}
   if(screen==='dress'&&button.hasAttribute('data-avatar-option'))chooseAvatarOption(button)
   if(action==='avatar-back'&&avatarStep>0){avatarStep--;renderAvatarStep()}
