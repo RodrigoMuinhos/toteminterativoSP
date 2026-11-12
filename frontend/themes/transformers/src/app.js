@@ -198,8 +198,8 @@ function showRoster(){
     '<img src="'+frameUrl(robot.id,4)+'" alt="" draggable="false"><strong>'+robot.name+'</strong></button>').join('')+'</div>'
   for(const robot of roster)loadFrames(robot.id).catch(()=>{})
 }
-async function transformRobot(robot){
-  if(state!=='select'&&state!=='robot')return
+async function transformRobot(robot,{fromSquad=false}={}){
+  if(state!=='select'&&state!=='robot'&&!(fromSquad&&state==='squad-win'))return
   clearTimeout(restart)
   returnGlow.classList.remove('lit')
   selected=robot
@@ -230,7 +230,7 @@ async function transformRobot(robot){
       const dissolve=previous.animate([{opacity:1},{opacity:0}],{duration:130,fill:'forwards'})
       dissolve.finished.then(()=>previous.remove(),()=>previous.remove())
       figure.animate([{opacity:.18},{opacity:1}],{duration:155})
-      if(final||step===3||step===6)effect.animate([{opacity:final?.85:.38},{opacity:0}],{duration:360})
+      if(!fromSquad&&(final||step===3||step===6))effect.animate([{opacity:final?.85:.38},{opacity:0}],{duration:360})
     }
     figure.src=frameUrl(robot.id,frameOrder[step])
     figure.alt=final?robot.name+' em forma de robô':'Transformação de '+robot.name
@@ -239,9 +239,9 @@ async function transformRobot(robot){
     }
     if(!final){restart=setTimeout(()=>advance(step+1),delays[step]-delays[step-1]);return}
     display('robot',robot.name+' transformado.')
-    if(robot.id==='optimus')autobots.querySelector('.tf-stage').insertAdjacentHTML('beforeend',
+    if(robot.id==='optimus'&&!fromSquad)autobots.querySelector('.tf-stage').insertAdjacentHTML('beforeend',
       '<div class="tf-actions"><button data-action="scan">Iniciar scan</button></div>')
-    returnToPoster(6000)
+    returnToPoster(fromSquad?1800:6000)
   }
   restart=setTimeout(()=>advance(1),delays[0])
 }
@@ -259,18 +259,13 @@ function startExperience(){
   }
 }
 
-const eyePositions={
-  optimus:[58,15.5],bumblebee:[54,18.2],ratchet:[44,13.9],
-  windblade:[63,18.8],wheeljack:[53,17.5]
-}
 let squad=[]
 const fitted=new Set()
 let picked=null
 let pieceDrag=null
 function squadFigure(robot){
-  const [x,y]=eyePositions[robot.id]
-  return '<span class="squad-figure" style="--eye-x:'+x+'%;--eye-y:'+y+'%;--accent:'+robot.color+'">'+
-    '<img src="'+frameUrl(robot.id,4)+'" alt="" draggable="false"><i class="squad-eyes" aria-hidden="true"></i></span>'
+  return '<span class="squad-figure" style="--accent:'+robot.color+'">'+
+    '<img src="'+frameUrl(robot.id,4)+'" alt="'+robot.name+'" draggable="false"></span>'
 }
 const badgeOutline='M242 21H423L430 50 463 8 492 0H732L769 49 777 21H958L903 264 868 286 891 296 873 484 777 566 754 534 754 582 713 619 701 587 695 630H505L499 587 486 619 446 582 446 534 424 566 327 484 309 296 332 284 297 265Z M515 94Q600 77 685 94L600 150Z M403 339L446 372V523L363 454 346 273 403 313Z M797 339L754 372V523L837 454 854 273 797 313Z'
 const badgeSections=[0,214,422,630]
@@ -281,6 +276,7 @@ function badgeIcon(index,outline=false){
   return '<svg viewBox="240 '+start+' 720 '+height+'" aria-hidden="true">'+shape+'</svg>'
 }
 function startSquad(){
+  loadFrames('optimus').catch(()=>{})
   returnGlow.classList.remove('lit')
   clearTimeout(restart)
   const pool=[...roster]
@@ -370,7 +366,7 @@ function squadWin(){
     const now=audio.currentTime
     for(const [index,note] of [261.63,392,523.25,659.25].entries())tone(now+index*.12,note,note,.38,.075)
   }
-  returnToPoster(9000)
+  restart=setTimeout(()=>transformRobot(roster.find(robot=>robot.id==='optimus'),{fromSquad:true}),2500)
 }
 entry.addEventListener('click',()=>{if(state==='poster')startExperience()})
 autobots.addEventListener('click',event=>{

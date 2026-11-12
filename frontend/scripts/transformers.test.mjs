@@ -110,6 +110,36 @@ test('scan interrompido volta após 15 segundos sem interação', () => {
   assert.equal(game.run('state'), 'poster');
 });
 
+test('símbolo completo mostra o trio sem luzes, monta Optimus e retorna ao pôster', async () => {
+  const game = app();
+  game.run("squad=[roster[0],roster[1],roster[3]]; squadWin()");
+  const lineup = game.nodes.get('.autobots').innerHTML;
+  assert.equal((lineup.match(/class="squad-figure"/g) || []).length, 3);
+  assert.doesNotMatch(lineup, /squad-eyes/);
+  game.advance(2499);
+  assert.equal(game.run('state'), 'squad-win');
+  game.advance(1);
+  assert.equal(game.run('state'), 'transform');
+  assert.match(game.nodes.get('.autobots').innerHTML, /frames\/optimus\/0.webp/);
+  game.resolveFrames();
+  await game.run("loadFrames('optimus')");
+  game.advance(1800);
+  assert.equal(game.run('state'), 'robot');
+  assert.equal(game.nodes.get('.tf-figure').src, 'frames/optimus/4.webp');
+  assert.doesNotMatch(game.nodes.get('.autobots').innerHTML, /data-action="scan"/);
+  game.advance(2300);
+  assert.equal(game.run('state'), 'poster');
+});
+
+test('Home durante o trio cancela a montagem automática do Optimus', () => {
+  const game = app();
+  game.run("squad=[roster[0],roster[1],roster[3]]; squadWin()");
+  game.advance(1000);
+  game.run('reset()');
+  game.advance(20000);
+  assert.equal(game.run('state'), 'poster');
+});
+
 test('seletor navega em páginas separadas e não executa os dois totens', () => {
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.match(html, /href="my-little-pony\/"/);
