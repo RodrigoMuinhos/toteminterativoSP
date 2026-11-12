@@ -11,7 +11,6 @@ function setScreen(name,html){
   timers.forEach(clearTimeout);timers=[];screen=name
   panel.className=name;panel.innerHTML=html;resetIdle()
 }
-const home='<button class="home" data-action="home" aria-label="Início">⌂</button>'
 const header=(title,sub='')=>'<header class="head"><h1>'+title+'</h1>'+(sub?'<p>'+sub+'</p>':'')+'</header>'
 const img=(id,cls='')=>'<img draggable="false" class="'+cls+'" src="'+art.ponies[id]+'" alt="'+names[id]+'">'
 const bar=(cls,label)=>'<div class="meter '+cls+'" role="progressbar" aria-label="'+label+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>'
@@ -28,14 +27,13 @@ function begin(game){
 const frameCount=18
 const poseNames=['Pinkie Pie','Apple Bloom','Celestia','Bon Bon','Trixie','Rarity','Applejack','Derpy','Luna','Fluttershy','Lyra','Rainbow Dash','Twilight Sparkle','Shining Armor','Zecora','Roseluck','Scootaloo','Big Mac']
 let currentPose=0
-const poseHome='<button class="poseHome" data-action="home" aria-label="Início">'+avatarIcon('home')+'</button>'
 const posePosition=frame=>(frame%6)*20+'% '+Math.floor(frame/6)*50+'%'
 function pose(frame){
   return '<div class="pose" role="img" aria-label="'+poseNames[frame]+'" style="background-position:'+posePosition(frame)+'"></div>'
 }
 function choose(){
   currentPose=Math.floor(Math.random()*frameCount)
-  setScreen('pose-game pose-roll',poseHome+pose(currentPose)+
+  setScreen('pose-game pose-roll',pose(currentPose)+
     '<button class="poseStop" data-action="pose-stop" aria-label="Toque na estrela para sortear uma pose"><span aria-hidden="true"></span></button>')
   const tile=panel.querySelector('.pose')
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -49,7 +47,7 @@ function choose(){
 }
 function imitatePose(){
   const frame=currentPose
-  setScreen('pose-game pose-imitate',poseHome+pose(frame)+
+  setScreen('pose-game pose-imitate',pose(frame)+
     '<div class="poseDock poseCountdown" role="img" aria-label="Imite a pose do pônei">'+
     '<div class="poseBubbles" aria-hidden="true"><i class="lit">✦</i><i>✦</i><i>✦</i></div></div>')
   const bubbles=panel.querySelectorAll('.poseBubbles i')
@@ -90,7 +88,7 @@ function roundedMazePath(){
 }
 function trail(){
   const rainbow=['#ff83b5','#ffbc91','#ffe59b','#a4ecc7','#8fdfff','#baa5f6']
-  setScreen('trail','<button class="home mazeHome" data-action="home" aria-label="Início">'+avatarIcon('home')+'</button>'+
+  setScreen('trail',
     '<svg class="mazeBoard" viewBox="0 0 941 1672" aria-label="Guie a Rainbow Dash pelo labirinto de nuvens até o arco-íris">'+
     '<defs><linearGradient id="mazeRainbow" x2="0" y2="1">'+rainbow.map((c,i)=>'<stop offset="'+i*20+'%" stop-color="'+c+'"/>').join('')+'</linearGradient></defs>'+
     '<path class="mazeVisited" d="'+roundedMazePath()+'" fill="none" stroke="url(#mazeRainbow)" stroke-width="22" stroke-linecap="round"/>'+
@@ -226,11 +224,11 @@ function avatarIcon(name){
 function dress(){
   avatar={body:0,tail:0,cut:0,mane:0,mark:2}
   avatarStep=0
-  setScreen('dress','<button class="home visualControl" data-action="home" aria-label="Início">'+avatarIcon('home')+'</button>'+
+  setScreen('dress',
     '<div class="avatarRibbon" aria-hidden="true"></div>'+
     '<div class="avatarTimer">'+avatarIcon('clock')+bar('','Tempo restante')+'</div>'+
     '<div class="avatarLayout"><div class="avatarPreview"></div><div class="avatarChoices"></div></div>'+
-    '<div class="avatarBottom"><button class="pill visualControl" data-action="avatar-back" aria-label="Voltar etapa">'+avatarIcon('back')+'</button><button class="pill visualControl" data-action="avatar-next" aria-label="Próxima etapa"></button></div>')
+    '<div class="avatarBottom"><button class="pill visualControl" data-action="avatar-next" aria-label="Próxima etapa"></button></div>')
   renderAvatarStep()
   const timer=panel.querySelector('.avatarTimer')
   const deadline=performance.now()+60000
@@ -258,7 +256,6 @@ function renderAvatarStep(){
       (step.colors?'<i style="--swatch:'+palette[index][1]+'" aria-hidden="true"></i>':
       step.key==='cut'?'<span class="cutTile" aria-hidden="true">'+avatarArt({...avatar,cut:index},'cut-'+index)+'</span>':
       avatarIcon(['star','heart','blank'][index]))+'</button>').join('')+'</div>'
-  panel.querySelector('[data-action="avatar-back"]').disabled=avatarStep===0
   const next=panel.querySelector('[data-action="avatar-next"]')
   const last=avatarStep===avatarSteps.length-1
   next.setAttribute('aria-label',last?'Finalizar':'Próxima etapa')
@@ -276,14 +273,14 @@ function celebrate(poseFrame){
   const message='Luz e brilho!'
   const figure=isPose?pose(poseFrame):mode==='dress'?'<div class="finishedAvatar jump">'+avatarArt()+'</div>':img(pony,'hero jump')
   if(isPose){
-    setScreen('pose-game pose-win',poseHome+figure+'<div class="poseShine" aria-hidden="true"><i>✦</i><i>✧</i><i>✦</i><i>✧</i></div>'+confetti()+
+    setScreen('pose-game pose-win',figure+'<div class="poseShine" aria-hidden="true"><i>✦</i><i>✧</i><i>✦</i><i>✧</i></div>'+confetti()+
       '<button class="poseDock poseReplay" data-action="repeat" aria-label="Sortear outra pose">'+avatarIcon('replay')+'</button>')
   }else if(mode==='dress'){
     setScreen('celebrate avatarCelebrate','<div class="rays"></div><div class="avatarSuccess" aria-hidden="true">'+avatarIcon('star')+'</div>'+figure+confetti()+
       '<div class="bottom"><button class="pill visualControl" data-action="repeat" aria-label="Brincar de novo">'+avatarIcon('replay')+'</button>'+
-      '<button class="pill visualControl" data-action="home" aria-label="Início">'+avatarIcon('home')+'</button></div>')
+      '</div>')
   }else{
-  setScreen('celebrate','<div class="rays"></div>'+header(message)+figure+confetti()+'<div class="bottom"><button class="pill primary" data-action="repeat">Brincar de novo</button><button class="pill" data-action="home">Início</button></div>')
+  setScreen('celebrate','<div class="rays"></div>'+header(message)+figure+confetti()+'<div class="bottom"><button class="pill primary" data-action="repeat">Brincar de novo</button></div>')
   }
   playNotes([659,784,988,1319]);after(7000,wait)
 }
@@ -313,9 +310,7 @@ panel.addEventListener('click',e=>{
   if(!button)return
   unlockAudio()
   const {action}=button.dataset
-  if(action==='home'){wait();return}
   if(screen==='dress'&&button.hasAttribute('data-avatar-option'))chooseAvatarOption(button)
-  if(action==='avatar-back'&&avatarStep>0){avatarStep--;renderAvatarStep()}
   if(action==='avatar-next'){
     if(avatarStep===avatarSteps.length-1)celebrate()
     else{avatarStep++;renderAvatarStep()}

@@ -63,7 +63,7 @@ Consulte [LEIA-ME.md](LEIA-ME.md). O inicializador do Windows prepara o build e 
 
 ## Verificação
 
-`npm run check` verifica código e referências a assets. O build também roda essa verificação. Valide manualmente o arraste no labirinto, os botões de início, as poses, as cinco etapas do avatar, o áudio após o primeiro toque e o retorno por inatividade.
+`npm run check` verifica código e referências a assets. O build também roda essa verificação. Valide manualmente o arraste no labirinto, o retorno automático ao início, as poses, as cinco etapas do avatar, o áudio após o primeiro toque e o retorno por inatividade.
 
 ## Conteúdo visual
 

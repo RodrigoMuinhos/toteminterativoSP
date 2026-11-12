@@ -47,7 +47,7 @@ img{user-select:none;-webkit-user-drag:none}.hero{position:absolute;left:13%;top
 .avatarOptions button{background:#fff;border:2px solid transparent;border-radius:3cqw;min-height:10.5cqw;padding:1.1cqw;font-size:3.3cqw}
 .avatarOptions button[aria-pressed=true]{border-color:#944ac1;background:#f8ecff}
 .avatarOptions i{display:block;width:5.3cqw;height:5.3cqw;margin:0 auto .6cqw;background:var(--swatch);border:1px solid #78459a55;border-radius:50%}
-.avatarBottom{position:absolute;bottom:6%;left:6%;right:6%;display:grid;grid-template-columns:1fr 1.2fr;gap:3cqw}
+.avatarBottom{position:absolute;bottom:6%;left:6%;right:6%;display:grid;grid-template-columns:1fr;gap:3cqw}
 .finishedAvatar{position:absolute;left:9%;right:9%;top:25%;bottom:19%;display:grid;align-items:center;pointer-events:none}
 .dress{background:radial-gradient(ellipse at 85% 0%,#d1f5ff,transparent 43%),radial-gradient(ellipse at 35% 78%,#ffdaff,transparent 61%),linear-gradient(152deg,#cbb9fb,#e4d8ff 58%,#c8ddff)}
 .dress:before,.dress:after{content:'';position:absolute;z-index:-1;pointer-events:none;width:65%;height:15%;background:radial-gradient(ellipse at 27% 66%,#fff9 0 27%,transparent 28%),radial-gradient(ellipse at 48% 46%,#fff8 0 29%,transparent 30%),radial-gradient(ellipse at 73% 72%,#ffeafb 0 26%,transparent 27%)}
@@ -117,7 +117,7 @@ img{user-select:none;-webkit-user-drag:none}.hero{position:absolute;left:13%;top
 .mazeMeter .meter{height:3cqw}
 @media(prefers-reduced-motion:reduce){.mazeStart{animation:none}}
 
-.pose-game{background:#c8ddff url("pose-theater.webp") center/100% 100% no-repeat}
+.pose-game{background:#c8ddff url("pose-theater-no-home.png") center/100% 100% no-repeat}
 .pose-game .pose{position:absolute;z-index:1;left:25%;top:28%;width:50%;aspect-ratio:1;background:url("pony-poses-transparent.webp") no-repeat;background-size:600% 300%;pointer-events:none}
 .poseHome,.poseStop{position:absolute;background:transparent;padding:0;z-index:5}
 .poseHome{left:2.7%;top:1.35%;width:13%;height:7.5%;border-radius:50%}
@@ -137,7 +137,7 @@ img{user-select:none;-webkit-user-drag:none}.hero{position:absolute;left:13%;top
 @media(prefers-reduced-motion:reduce){.poseStop span,.pose-imitate .pose,.pose-win .pose{animation:none}}
 
 .pose-imitate,.pose-win{background:#c8ddff url("pose-clouds.webp") center/cover no-repeat}
-.pose-imitate::before{content:'';position:absolute;inset:0;pointer-events:none;background:url("pose-theater.webp") center/100% 100%;animation:theater-out .65s ease-out both}
+.pose-imitate::before{content:'';position:absolute;inset:0;pointer-events:none;background:url("pose-theater-no-home.png") center/100% 100%;animation:theater-out .65s ease-out both}
 .pose-imitate .pose,.pose-win .pose{left:8%;width:84%;top:25%;filter:drop-shadow(0 0 2.8cqw #fff5c9) drop-shadow(0 0 1.4cqw #fff)}
 .pose-imitate .pose{animation:pony-emerge .72s cubic-bezier(.18,.73,.32,1) both}
 .pose-win .pose{animation:none}
@@ -160,3 +160,5 @@ img{user-select:none;-webkit-user-drag:none}.hero{position:absolute;left:13%;top
 
 html,body{overscroll-behavior:none}main{user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .trail .mazeHome{z-index:6}
+
+.avatarBottom{left:35%;right:35%}
